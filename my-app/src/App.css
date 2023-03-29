@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+  background-color:rgb(228, 226, 226);
+}
+
+#header{
+  margin:20px;
+}
+
+
+.card-contacts{
+  display:flex;
+}
+.infocards{
+  display: flex;
+  flex-wrap: wrap;
+
+
+}
+#addForm{
+  background-color: green;
+}
+#pageB{
+  background-color: aqua;
+}

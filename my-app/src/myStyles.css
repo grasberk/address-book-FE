@@ -1,0 +1,17 @@
+.primary {
+    text-align: 'center';
+    font-weight: 'bold';
+    font-size: 18;
+    margin-top: 0;
+    width: 200;
+    background-color: 'yellow';
+  }
+
+ #id{
+    color: brown;
+ }
+
+ .block{
+   margin:20px;
+   
+ }
