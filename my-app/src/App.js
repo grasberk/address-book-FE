@@ -4,12 +4,7 @@ import { useState } from 'react';
 import InfoCard from './InfoCard';
 import AddForm from './AddForm';
 import EditForm from './EditForm';
-import {AiOutlineFileAdd} from 'react-icons/ai';
-import Card from 'react-bootstrap/Card';
-// Move the add button to the end of the cards and make it into a plus symbol
-// - When the add form card pops up. I want to pop up where the add form button used to be
-// - Add a cancel button to the add form card that will close the card
-// - upload the FE to github
+import {BsPlusLg} from 'react-icons/bs';
 
 
 function createPerson(data){
@@ -65,7 +60,7 @@ function reset(){
 }
 
 //show.status
-function openForm(show,setdata){
+function openForm(show,setdata,setform,setbutton){
   if (show===true){
     return <AddForm 
     
@@ -75,9 +70,21 @@ function openForm(show,setdata){
       setdata({
         status:"adding person"
       });
+      setform({
+        addFormVisibility:false
+      })
+      setbutton(true)
       
     })}}
-
+    hide={()=>{
+      console.log(show)
+      setform({
+        addFormVisibility:false
+      })
+      setbutton(true)
+      
+      
+    }}
     
     ></AddForm>
     
@@ -119,16 +126,23 @@ function editForm(show,person,setShow,setdata){
     </EditForm>
   }
 }
+
 function App() {
+  const[showAddButton,setShowAddButton]=useState(true);
+
+  function toggleButton(){
+    return setShowAddButton(!showAddButton)
+  };
+
   const [personData,setPersonData]=useState({
     personData:null
   })
 
   
-  const[show, setShow]=useState({
-    editstatus:false,
-    status: false,
-    formstatus:"pending"
+  const[formVisibility, setFormVisibility]=useState({
+    editFormVisibility:false,
+    addFormVisibility: false
+    
   });
  
   
@@ -166,32 +180,10 @@ function App() {
      
       <div className="App">
          
-        {/* <button onClick={() => {
-          setShow({
-            status:!show.status
-          })
-          
-         }
-        }> AddForm</button> */}
-          
-          {/* {openForm(show.status,setdata)} */}
-          {editForm(show.editstatus,personData.personData,setShow,setdata)}
-          
-
-
-         
-          
-        
-          
-          
-          
       
          
-          
-        
-        
-       
-       
+          {editForm(formVisibility.editFormVisibility,personData.personData,setFormVisibility,setdata)}
+
         <div className="infocards">
           {data.result.map(person=>
           <InfoCard 
@@ -211,32 +203,40 @@ function App() {
 
                }}
                onEdit={(cardData)=>{
-                console.log(show.editstatus)
-                setShow({
-                  editstatus:true
+                console.log(formVisibility.editFormVisibility)
+                setFormVisibility({
+                  editFormVisibility:true
                 })
                 
                 setPersonData({
                   personData:cardData
                 })
-                console.log(show.editstatus)
+                console.log(formVisibility.editFormVisibility)
                }}
                >
                 
           </InfoCard>)}
+          <div id="addButton">
+
           
-          <button id="addForm" onClick={() => {
-          setShow({
-            status:!show.status
+          <button style={{display: showAddButton ? "block": "none"}}id="addForm" onClick={() => {
+       
+          toggleButton()
+          setFormVisibility({
+            addFormVisibility:!formVisibility.addFormVisibility
           })
           
          }
-        }> <AiOutlineFileAdd id="pageB"></AiOutlineFileAdd></button>
-
+        }> 
+       
+        <BsPlusLg id="plusIcon" ></BsPlusLg></button>
+        </div>
+        {console.log("state of add button")}
+        {console.log(showAddButton)}
           
           
           
-          {openForm(show.status,setdata)}
+          {openForm(formVisibility.addFormVisibility,setdata,setFormVisibility,setShowAddButton)}
         
         </div>
         
@@ -256,10 +256,6 @@ function App() {
   else{
     return (<div>IS LOADING!!!!!!!</div>);
   }
-
-  
-
- 
   
 }
 
